@@ -1,8 +1,8 @@
 # Video segment search
 ## Table of contents
 
-- [Background](https://github.com/maaparna/CourseProject#Backgroud)
-- [Installation](https://github.com/maaparna/CourseProject#Installation)
+- [Background](#Backgroud)
+- [Installation](#Installation)
 - [Usage](#Usage)
 - [API](#API)
 - [Maintainers](#Maintainers)
@@ -24,7 +24,7 @@ In the project, the [pycode](https://github.com/maaparna/CourseProject/tree/main
 ## Installation
 
 
-[Create Project, Enable API and create service account](https://cloud.google.com/video-intelligence/docs/common/auth)
+ [Create Project, Enable API and create service account](https://cloud.google.com/video-intelligence/docs/common/auth)
 
 [Installing and initializing cloud SDK](https://cloud.google.com/sdk/docs/install?authuser=1)
 
@@ -45,3 +45,20 @@ pip install streamlit
 pip install streamlit-aggrid
 pip install gcsfs
 ```
+
+
+## Usage
+
+First ensure to update jsonCreation.py with the correct key name and execute jsonCreation.py to create the json file with all the lables for the videos uploaded
+
+```sh
+python3 jsonCreation.py
+```
+once sucessfull you will get a message "Blob name is json_file.json has been uploaded" on the terminal.
+Now that the json file is created we can run the LabelSearch.py to view the results in the streamlit app.
+
+execute the following command to locally run the streamlit app
+```sh
+streamlit run LabelSearch.py
+```
+
