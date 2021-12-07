@@ -9,15 +9,32 @@ from google.cloud import storage
 from datetime import datetime
 import json
 
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = "videointelligence-332009-c6dd45b3cf8f.json"
+#update the key name. This will be the key that you downloaded when you created the service account key.
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = "<your-key>.json"
 video_client = videointelligence.VideoIntelligenceServiceClient()
-videobucket_name='aparnavideointelligence'
-textbucket_name='aparnatextintelligence'
-jsonbucket_name = 'aparnajsonfiles'
 
-video_uri='gs://aparnavideointelligence/'
-text_uri='gs://aparnatextintelligence/'
-storage_client = storage.Client.from_service_account_json('videointelligence-332009-c6dd45b3cf8f.json')
+#update the bucket name with the bucket that holds the videos you would like use the LABEL_DETECTION on
+#more than a video can be stored in this cloud storage.
+#it only performs LABEL_DETECTION on these.
+videobucket_name='<bucket-name-storing-video-for-label-detection>'
+
+#update the bucket name with the bucket that holds the videos you would like use the TEXT_DETECTION on
+#more than a video can be stored in this cloud storage.
+#it only performs TEXT_DETECTION on these.
+textbucket_name='<bucket-name-storing-video-for-TEXT-detection>'
+
+#update the bucket name with the bucket name where you would like the JSON file to be uploaded.
+#This bucket is only used to upload the JSON file
+jsonbucket_name = '<bucket-name-for-storing-json-file>'
+
+#update the link with your bucket name that has videos you would like to use the LABEL_DETECTION on
+video_uri='gs://<bucket-name-storing-video-for-label-detection>/'
+
+#update the link with your bucket name that has videos you would like to use the TEXT_DETECTION on
+text_uri='gs://<bucket-name-storing-video-for-TEXT-detection>/'
+
+#update the key name. This will be the key that you downloaded when you created the service account key.
+storage_client = storage.Client.from_service_account_json('<your-key>.json')
 
 client = storage.Client()
 videobucket = client.bucket(videobucket_name)
@@ -27,12 +44,11 @@ textbucket = client.bucket(textbucket_name)
 textblobs = client.list_blobs(textbucket_name)
 finalrecords = []
 
+#Run LABEL_DETECTION on all videos in that bucket
 for blob in videoblobs:
     blob = videobucket.get_blob(blob.name)
     if blob.name.endswith('.mp4'):
-        #print("Blob name is {}".format(blob.name))
         gs_URI = video_uri+blob.name
-        #gs_output_URI='gs://aparnajsonfiles'
 
         operation = video_client.annotate_video(
             input_uri=gs_URI,
@@ -41,40 +57,14 @@ for blob in videoblobs:
 
         result = operation.result(timeout=600)
         filename=blob.name
-        """ serialized = result.__class__.to_json(result)
-
-        # write your bucket name in place of bucket1go
-
-        jsonBUCKET = storage_client.get_bucket(jsonbucket_name)
-        # store the result as json
-        json_result = json.loads(serialized)
-
-        #json_result = result
-        annotation_results = result.annotation_results
-        date = datetime.now(). strftime("%Y_%m_%d-%I:%M:%S_%p")
-        filename=blob.name+date+'.json'
-        blob = jsonBUCKET.blob(filename)
-            # upload the blob 
-        blob.upload_from_string(
-                data=json.dumps(json_result),
-                content_type='application/json'
-                )
-        print("Blob name is {} has been uploaded".format(blob.name)) """
 
         segment_labels = result.annotation_results[0].shot_label_annotations
 
-        Record = namedtuple('File', 'name label start end confidence')
+        Record = namedtuple('File', 'type name label start end confidence')
 
         
         for i, segment_label in enumerate(segment_labels):
             
-           # print("Video label description: {}".format(segment_label.entity.description))
-            
-            # for category_entity in segment_label.category_entities:
-            #     print(
-            #             "\tLabel category description: {}".format(category_entity.description)
-            #         )
-
             for i, segment in enumerate(segment_label.segments):
                 start_time = (segment.segment.start_time_offset.seconds 
                             + segment.segment.start_time_offset.microseconds / 1e6 )
@@ -84,6 +74,7 @@ for blob in videoblobs:
                 confidence = segment.confidence
                 
                 finalrecords.append(Record(
+                type ='video',
                 name =  filename,   
                 label = segment_label.entity.description,
                 start = start_time,
@@ -91,20 +82,11 @@ for blob in videoblobs:
                 confidence = confidence
                 ))
 
-                
-            #     print("\tSegment {}: {}".format(i, positions))
-            #     print("\tConfidence: {}".format(confidence))
-            # print('\n')
-
-# Capturing the data into a dataframe
-
-
+#Run TEXT_DETECTION on all videos in that bucket                
 for blob in textblobs:
     blob = textbucket.get_blob(blob.name)
     if blob.name.endswith('.mp4'):
-        #print("Blob name is {}".format(blob.name))
         gs_URI = text_uri+blob.name
-        #gs_output_URI='gs://aparnajsonfiles'
 
         operation = video_client.annotate_video(
             input_uri=gs_URI,
@@ -116,13 +98,10 @@ for blob in textblobs:
 
         text_labels = result.annotation_results[0].text_annotations
 
-        Record = namedtuple('File', 'name label start end confidence')
+        Record = namedtuple('File', 'type name label start end confidence')
 
         for i, text_label in enumerate(text_labels):
             
-            # print("Video label description: {}".format(text_label.text))
-            
-
             for i, segment in enumerate(text_label.segments):
                 start_time = (segment.segment.start_time_offset.seconds 
                             + segment.segment.start_time_offset.microseconds / 1e6 )
@@ -133,6 +112,7 @@ for blob in textblobs:
                 
                 if(confidence >=0.99):
                     finalrecords.append(Record(
+                    type='text',
                     name =  filename,   
                     label = text_label.text,
                     start = start_time,
@@ -140,52 +120,30 @@ for blob in textblobs:
                     confidence = confidence
                 ))
 
-                
-            #     print("\tSegment {}: {}".format(i, positions))
-            #     print("\tConfidence: {}".format(confidence))
-            # print('\n')
-
     
 # Capturing the data into a dataframe
-df = pd.DataFrame(finalrecords, columns =['name','label', 'start',  'end', 'confidence'])
+df = pd.DataFrame(finalrecords, columns =['type','name','label', 'start',  'end', 'confidence'])
 
-# creating a column to calculate the length of the screen time 
 df["total"] = df["end"] - df["start"]
-df=df[~df['label'].str.contains('URBANA')]
-df=df[~df['label'].str.contains('CHAMPAIGN')]
-df=df[~df['label'].str.contains('Department of Computer Science')]
-df=df[~df['label'].str.contains('-')]
+# I have filtered certain values as the TEXT_DETECTION generates lots of labels that would not make sense. 
+# Feel free to comment/uncomment the next four lines to either filter values that you feel are junk
+# df=df[~df['label'].str.contains('URBANA')]
+# df=df[~df['label'].str.contains('CHAMPAIGN')]
+# df=df[~df['label'].str.contains('Department of Computer Science')]
+# df=df[~df['label'].str.contains('-')]
 
 df.sort_values(by = "label", inplace = True, ascending = False)
-
-# write your bucket name in place of bucket1go
 
 jsonBUCKET = storage_client.get_bucket(jsonbucket_name)
 # store the result as json
 json_result = df.to_json(orient = 'records')
 
-#json_result = result
 date = datetime.now(). strftime("%Y_%m_%d-%I:%M:%S_%p")
 filename='json_file.json'
 blob = jsonBUCKET.blob(filename)
-    # upload the blob 
+# upload the blob 
 blob.upload_from_string(
         data=json.dumps(json_result),
         content_type='application/json'
         )
 print("Blob name is {} has been uploaded".format(blob.name))
-
-# # this variable will be used for creating the red vertical line. 
-# second_of_interest = 6
-
-# fig = go.Figure()
-# for (start, end, label) in zip(df["start"], df["end"], df["label"]):
-#     name = label
-#     fig.add_trace(go.Scatter(x=[start, end], y=[label, label],
-#                     name = name, line=dict(width=4, color = "blue")))
-# fig.add_shape(type="line",
-#     x0=second_of_interest, y0=0, x1=second_of_interest, y1="beard",
-#     line=dict(color="red",width=3)
-# )
-# fig.update_layout(showlegend=False)    
-# fig.show()
