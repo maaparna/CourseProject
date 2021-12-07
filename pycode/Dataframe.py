@@ -155,6 +155,10 @@ df = pd.DataFrame(finalrecords, columns =['name','label', 'start',  'end', 'conf
 
 # creating a column to calculate the length of the screen time 
 df["total"] = df["end"] - df["start"]
+df=df[~df['label'].str.contains('URBANA')]
+df=df[~df['label'].str.contains('CHAMPAIGN')]
+df=df[~df['label'].str.contains('Department of Computer Science')]
+df=df[~df['label'].str.contains('-')]
 
 df.sort_values(by = "label", inplace = True, ascending = False)
 
