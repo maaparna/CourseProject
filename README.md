@@ -1,8 +1,8 @@
 # Video segment search
 ## Table of contents
 
-- [Background](https://github.com/maaparna/CourseProject/edit/main/README.md##Backgroud)
-- [Installation](https://github.com/maaparna/CourseProject/edit/main/README.md##Installation)
+- [Background](https://github.com/maaparna/CourseProject#Backgroud)
+- [Installation](https://github.com/maaparna/CourseProject#Installation)
 - [Usage](#Usage)
 - [API](#API)
 - [Maintainers](#Maintainers)
