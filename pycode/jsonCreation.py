@@ -1,14 +1,10 @@
 import subprocess
 import os, io
 import pandas as pd
-from google.api_core.protobuf_helpers import get_messages
 from google.cloud import videointelligence
 from collections import namedtuple
-import plotly.graph_objects as go
-import plotly.express as px
 import requests
 import string
-from google.protobuf.json_format import MessageToJson
 from google.cloud import storage
 from datetime import datetime
 import json
