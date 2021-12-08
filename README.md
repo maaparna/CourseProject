@@ -62,7 +62,7 @@ python3 jsonCreation.py
 ```
 once sucessfull you will get a message "Blob name is json_file.json has been uploaded" on the terminal.
 Now that the json file is created we can run the LabelSearch.py to view the results in the streamlit app.
-> Note: Update LabelSearch.py with the Key file name, the bucket name from which the JSON  file has to be downloaded. Finally and the most important is to update the <video_dict> variable. This is a key, value pair. Key will be the name of the video that can be found in the "Name" field of the json file and the value will be the URL(I used youtube to upload my videos) of the video.
+> Note: Update LabelSearch.py with the Key file name, the bucket name from which the JSON  file has to be downloaded. Finally and the most important is to update the <video_dict> variable. This is a key, value pair. Key will be the name of the video that can be found in the "Name" field of the json file(the name of the videos that are being annotated) and the value will be the URL(I used youtube to upload my videos) of the video.
 
 
 execute the following command to locally run the streamlit app
