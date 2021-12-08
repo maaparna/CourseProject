@@ -45,20 +45,29 @@ pip install streamlit
 pip install streamlit-aggrid
 pip install gcsfs
 ```
+In order use the python code and make it work there are few things that needs to be set up apart from the libraries.
 
+Three [cloud storage buckets](https://cloud.google.com/storage/docs/creating-buckets) needs to be created under the project that was created in the installation step. One storage bucket is to store the videos that require LABEL_DETECTION to be applied to it, another bucket to store the videos that require TEXT_DETECTION. Third bucket is to store the resultant json file.
+> Note: All three buckets have to be created.
 
 ## Usage
+Load the required videos. Either the ones that require LABEL_DETECTION or TEXT_DETECTION or both. Now we are ready to generate the json file and view the results through streamlit.io
 
-First ensure to update jsonCreation.py with the correct key name and execute jsonCreation.py to create the json file with all the lables for the videos uploaded
+> Note: Ensure to update jsonCreation.py with the correct key, bucket and URI.
+
+Execute jsonCreation.py to create the json file with all the lables for the videos uploaded
 
 ```sh
 python3 jsonCreation.py
 ```
 once sucessfull you will get a message "Blob name is json_file.json has been uploaded" on the terminal.
 Now that the json file is created we can run the LabelSearch.py to view the results in the streamlit app.
+> Note: Update LabelSearch.py with the Key file name, the bucket name from which the JSON  file has to be downloaded. Finally and the most important is to update the <video_dict> variable. This is a key, value pair. Key will be the name of the video that can be found in the "Name" field of the json file and the value will be the URL(I used youtube to upload my videos) of the video.
+
 
 execute the following command to locally run the streamlit app
 ```sh
 streamlit run LabelSearch.py
 ```
+To deploy the streamlit app follow the steps in this [link](https://docs.streamlit.io/streamlit-cloud/get-started/deploy-an-app)
 
