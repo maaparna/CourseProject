@@ -15,6 +15,8 @@ For this to be possible, the videos need to be enriched with metadata. Metadata 
 In the project, the [pycode](https://github.com/maaparna/CourseProject/tree/main/pycode) folder has the following python files:
 -[jsonCreation.py](https://github.com/maaparna/CourseProject/blob/main/pycode/jsonCreation.py) 
 -[LabelSearch.py](https://github.com/maaparna/CourseProject/blob/main/pycode/LabelSearch.py)
+and one txt file.
+-[Requirement.txt](https://github.com/maaparna/CourseProject/blob/main/pycode/requirements.txt) : This lists the required client libraries needed to run LabelSeearch.py in Streamlit. This file is needed to be able to deploy the application. 
 
 [jsonCreation.py](https://github.com/maaparna/CourseProject/blob/main/pycode/jsonCreation.py) can be used to annotate the videos stored in the cloud and to upload the resulting json file back to cloud.It uses the Google video intelligence API to annotate the videos. 
 
@@ -24,7 +26,7 @@ In the project, the [pycode](https://github.com/maaparna/CourseProject/tree/main
 ## Installation
 
 
- [Create Project, Enable API and create service account](https://cloud.google.com/video-intelligence/docs/common/auth)
+[Create Project, Enable API and create service account](https://cloud.google.com/video-intelligence/docs/common/auth)
 
 [Installing and initializing cloud SDK](https://cloud.google.com/sdk/docs/install?authuser=1)
 
