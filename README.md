@@ -15,7 +15,7 @@ For this to be possible, the videos need to be enriched with metadata. Metadata 
 In the project, the [pycode](https://github.com/maaparna/CourseProject/tree/main/pycode) folder has the following python files:
 [jsonCreation.py](https://github.com/maaparna/CourseProject/blob/main/pycode/jsonCreation.py), 
 [LabelSearch.py](https://github.com/maaparna/CourseProject/blob/main/pycode/LabelSearch.py)
-and one txt file.
+and one txt file
 [Requirement.txt](https://github.com/maaparna/CourseProject/blob/main/pycode/requirements.txt)  
 
 [jsonCreation.py](https://github.com/maaparna/CourseProject/blob/main/pycode/jsonCreation.py) can be used to annotate the videos stored in the cloud and to upload the resulting json file back to cloud.It uses the Google video intelligence API to annotate the videos. 
