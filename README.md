@@ -22,7 +22,7 @@ and one txt file
 
 [LabelSearch.py](https://github.com/maaparna/CourseProject/blob/main/pycode/LabelSearch.py) uses the json file along with streamlit.io to produce an application that allows to search segments of the videos using the generated labels.
 
-[Requirement.txt](https://github.com/maaparna/CourseProject/blob/main/pycode/requirements.txt) lists the required client libraries needed to run LabelSeearch.py in Streamlit. This file is needed to be able to deploy the application. 
+[Requirement.txt](https://github.com/maaparna/CourseProject/blob/main/pycode/requirements.txt) lists the required client libraries needed to run LabelSearch.py in Streamlit. This file is needed to be able to deploy the application. 
 
 
 
