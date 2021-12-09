@@ -76,5 +76,5 @@ streamlit run LabelSearch.py
 ```
 To deploy the streamlit app follow the steps in this [link](https://docs.streamlit.io/streamlit-cloud/get-started/deploy-an-app)
 
-My sample document for video segment search can be found [here](https://share.streamlit.io/maaparna/streamlit_demo/main/pycode/printDataframe.py)
+My working app for video segment search can be found [here](https://share.streamlit.io/maaparna/streamlit_demo/main/pycode/printDataframe.py)
 
