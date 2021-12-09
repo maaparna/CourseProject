@@ -16,11 +16,14 @@ In the project, the [pycode](https://github.com/maaparna/CourseProject/tree/main
 -[jsonCreation.py](https://github.com/maaparna/CourseProject/blob/main/pycode/jsonCreation.py) 
 -[LabelSearch.py](https://github.com/maaparna/CourseProject/blob/main/pycode/LabelSearch.py)
 and one txt file.
--[Requirement.txt](https://github.com/maaparna/CourseProject/blob/main/pycode/requirements.txt) : This lists the required client libraries needed to run LabelSeearch.py in Streamlit. This file is needed to be able to deploy the application. 
+-[Requirement.txt](https://github.com/maaparna/CourseProject/blob/main/pycode/requirements.txt)  
 
 [jsonCreation.py](https://github.com/maaparna/CourseProject/blob/main/pycode/jsonCreation.py) can be used to annotate the videos stored in the cloud and to upload the resulting json file back to cloud.It uses the Google video intelligence API to annotate the videos. 
 
 [LabelSearch.py](https://github.com/maaparna/CourseProject/blob/main/pycode/LabelSearch.py) uses the json file along with streamlit.io to produce an application that allows to search segments of the videos using the generated labels.
+
+[Requirement.txt](https://github.com/maaparna/CourseProject/blob/main/pycode/requirements.txt) lists the required client libraries needed to run LabelSeearch.py in Streamlit. This file is needed to be able to deploy the application. 
+
 
 
 ## Installation
