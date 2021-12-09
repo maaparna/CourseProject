@@ -31,7 +31,7 @@ and one txt file
 
 [Create Project, Enable API and create service account](https://cloud.google.com/video-intelligence/docs/common/auth)
 
-[Installing and initializing cloud SDK](https://cloud.google.com/sdk/docs/install?authuser=1)
+[Installing and initializing google cloud SDK](https://cloud.google.com/sdk/docs/install?authuser=1)
 
 [Install the latest version of Python](https://realpython.com/installing-python/#how-to-install-python-on-macos) 
 
